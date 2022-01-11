@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    script(src='./javascripts/vendor/pixi/production/pixi.min.js', defer=true)
+    script(src='./javascripts/game.js', type='module', defer=true)
+    script(src='./javascripts/vector.js', type='module', defer=true)
+
+    #game.game

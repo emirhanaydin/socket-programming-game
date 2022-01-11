@@ -7,24 +7,28 @@ const wss = new WebSocket.Server({clientTracking: true, noServer: true});
 wss.on('connection', onConnection);
 
 function onConnection(ws, request) {
-    const userId = request.session.userId;
+    const {user} = request.session;
+    const {id} = user;
 
-    userWsMap.set(userId, ws);
+    userWsMap.set(id, ws);
 
-    const thisArg = {userId};
-    ws.on('message', onMessage.bind(thisArg));
-    ws.on('close', onClose.bind(thisArg));
+    ws.on('message', onMessage.bind(user));
+    ws.on('close', onClose.bind(user));
 }
 
 function onMessage(message) {
-    const {userId} = this;
+    const {id, username} = this;
 
-    console.log(`Received message ${message} from user ${userId}`)
+    console.log(`Received message ${message} from ${username} (${id})`)
 }
 
 function onClose() {
-    const {userId} = this;
-    userWsMap.delete(userId);
+    const {id} = this;
+    const ws = userWsMap.get(id);
+    if (ws != null) {
+        ws.removeAllListeners();
+    }
+    userWsMap.delete(id);
 }
 
 function getWs(id) {

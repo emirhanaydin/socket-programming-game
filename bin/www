@@ -90,7 +90,7 @@ function onListening() {
 
 function onUpgrade(request, socket, head) {
   sessionParser(request, {}, () => {
-    if (!request.session.userId) {
+    if (!request.session.user) {
       socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
       socket.destroy();
       return;
