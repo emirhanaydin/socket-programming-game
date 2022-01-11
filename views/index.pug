@@ -1,5 +1,8 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+    script(src='./javascripts/vendor/pixi/production/pixi.min.js', type='module', defer=true)
+    script(src='./javascripts/game.js', type='module', defer=true)
+    script(src='./javascripts/vector.js', type='module', defer=true)
+
+    div(id='game', class='game')
